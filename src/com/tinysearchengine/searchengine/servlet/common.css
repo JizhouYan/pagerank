@@ -1,0 +1,43 @@
+#search-form .form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#search-form .form-group input {
+    flex: 0.8;
+    padding: 2px;
+}
+
+#search-form .form-group button {
+    margin-left: 5px;
+    flex: 0.2;
+}
+
+#enable-amazon-box input {
+    margin-right: 5px;
+}
+
+#enable-ebay-box {
+    margin-left: 10px;
+}
+
+#enable-ebay-box input {
+    margin-right: 5px;
+}
+
+#enable-youtube-box {
+	margin-left: 10px;
+}
+
+#enable-youtube-box input {
+	margin-right: 5px;
+}
+
+#enable-spellcheck-box {
+	margin-left: 10px;
+}
+
+#enable-spellcheck-box input {
+	margin-right: 5px;
+}
