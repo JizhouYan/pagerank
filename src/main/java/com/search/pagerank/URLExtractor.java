@@ -1,4 +1,4 @@
-package com.searchengine.crawler;
+package com.search.pagerank;
 
 import java.util.LinkedList;
 

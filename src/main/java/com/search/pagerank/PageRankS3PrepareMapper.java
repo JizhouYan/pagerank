@@ -1,4 +1,4 @@
-package com.searchengine.pagerank;
+package com.search.pagerank;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.tinysearchengine.crawler.URLExtractor;
+import com.search.pagerank.URLExtractor;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.model.S3Object;

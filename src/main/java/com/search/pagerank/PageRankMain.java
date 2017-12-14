@@ -1,4 +1,4 @@
-package com.searchengine.pagerank;
+package com.search.pagerank;
 
 import org.apache.hadoop.util.ToolRunner;
 

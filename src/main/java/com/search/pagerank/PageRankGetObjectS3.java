@@ -1,4 +1,4 @@
-package com.searchengine.pagerank;
+package com.search.pagerank;
 
 import java.io.BufferedReader;
 import java.io.File;

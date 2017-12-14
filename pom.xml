@@ -78,14 +78,6 @@
     <version>2.8.2</version>
 </dependency>
         <!-- https://mvnrepository.com/artifact/com.sleepycat/je -->
-    <dependency>
-        <groupId>com.amazonaws</groupId>
-        <artifactId>aws-java-sdk-s3</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.amazonaws</groupId>
-        <artifactId>aws-java-sdk-dynamodb</artifactId>
-    </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -170,7 +162,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>edu.upenn.cis455.mapreduce.master.MasterServer</mainClass>
+                            <mainClass>com.search.pagerank.PageRankMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -181,10 +173,10 @@
               <version>1.6.0</version>
               <executions>
               <execution>
-                <id>pagerank</id>
+                <id>getObjectS3</id>
                 <goals><goal>java</goal></goals>
               <configuration>
-                <mainClass>com.search.pagerank.</mainClass>
+                <mainClass>com.search.pagerank.PageRankGetObjectS3</mainClass>
                 <arguments>
                   <argument>0</argument>
                   <argument>master</argument>
@@ -192,18 +184,17 @@
               </configuration>
               </execution>
               <execution>
-                <id>worker1</id>
+                <id>main</id>
                 <goals><goal>java</goal></goals>
               </execution>
               </executions>
               <configuration>
-                <mainClass>edu.upenn.cis455.mapreduce.worker.WorkerServer</mainClass>
+                <mainClass>com.search.pagerank.PageRankMain</mainClass>
                 <arguments>
                   <argument>8001</argument>
                   <argument>1</argument>
                 </arguments>
               </configuration>
-              <!-- TODO: create worker2 -->
             </plugin>
         </plugins>
     </build>

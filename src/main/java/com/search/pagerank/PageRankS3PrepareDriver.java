@@ -1,4 +1,4 @@
-package com.searchengine.pagerank;
+package com.search.pagerank;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -8,16 +8,16 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 
-public class PageRankFinalizeDriver extends Configured implements Tool{
+public class PageRankS3PrepareDriver extends Configured implements Tool{
 	@Override
 	public int run(String[] arg0) throws Exception {
 		// TODO Auto-generated method stub
 		Job job = Job.getInstance(); 
-	    job.setJobName("PageRankFinalStep");
-	    job.setJarByClass(PageRankFinalizeDriver.class);
+	    job.setJobName("PageRankReadFromS3");
+	    job.setJarByClass(PageRankS3PrepareDriver.class);
 	     
-	    job.setMapperClass(PageRankFinalizeMapper.class); //Set Mapper Class
-	    job.setReducerClass(PageRankFinalizeReducer.class); //Set Reducer Class 
+	    job.setMapperClass(PageRankS3PrepareMapper.class); //Set Mapper Class
+	    job.setReducerClass(PageRankS3PrepareReducer.class); //Set Reducer Class 
 	    
 	    job.setMapOutputKeyClass(Text.class); //Set Mapper Output
 	    job.setMapOutputValueClass(Text.class);
@@ -30,3 +30,4 @@ public class PageRankFinalizeDriver extends Configured implements Tool{
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
 }
+ 

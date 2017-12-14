@@ -1,4 +1,4 @@
-package com.searchengine.pagerank;
+package com.search.pagerank;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
