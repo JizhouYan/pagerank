@@ -24,7 +24,7 @@ import com.amazonaws.services.s3.model.S3Object;
 //output: URL outlinks
 
 public class PageRankS3PrepareMapper extends Mapper<LongWritable, Text, Text, Text>{
-	static final String S3BUCKET_NAME = "tinysearchengine";
+	static final String S3BUCKET_NAME = "cis555finalpagerank";
 	static final String SEPARATOR = " ";
 	
 	private AmazonS3 s3Client = new AmazonS3Client(new DefaultAWSCredentialsProviderChain());
@@ -71,56 +71,83 @@ public class PageRankS3PrepareMapper extends Mapper<LongWritable, Text, Text, Te
 		return content;
 	}
 	
-	@Override
-	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {		
-		String line = value.toString();
-		String[] parts = line.split("\001");
-		//should be 3 parts
-		//url, s3key, outlinks
-		//outlinks are divided using "\002"
-		
-		if (parts.length < 2) {
-			System.out.println(line);
-			return;
-		}
-		
-		String url = parts[0]; 
-		if(url.contains("\t")) {
-			url = url.replaceAll("\t", "%09");
-		}
-		if(parts.length == 2 || parts[2] == "") { //Need to parse by myself
-			JSONObject obj = new JSONObject(parts[1]);
-			String s3key = obj.getJSONObject("s3").getString("key");			
-			String content = getS3FileContent(s3key);
-			if (content == null) { //pay attention to content is null. then nothing needs to be done.
-				System.out.println(s3key + " content null");
-				return;
-			}		
-			String[] links = URLExtractor.extract(content.getBytes());
-			URL curUrl = new URL(url);
-			for(String link: links) {	
-				URL resolvedUrl = new URL(curUrl, link);
-				String realLink = resolvedUrl.toString(); //get away! those mailto:
-				if(realLink.startsWith("https") || realLink.startsWith("http")) {
-					realLink = realLink.replaceAll("\t", "%09");
-//				    if(realLink.contains(" ")) {
-//					    realLink = realLink.replaceAll(" ", "%20");
-//				    }	    
-				    context.write(new Text(url), new Text(realLink));
-				}		
-			}	
-		} else { //already parsed, just get
-			String[] outlinks = parts[2].split("\002");
-			for(String outlink : outlinks) {
-				if(outlink.startsWith("https") || outlink.startsWith("http")) {
-					outlink = outlink.replaceAll("\t", "%09");
-//				    if(outlink.contains(" ")) {
-//				    	outlink = outlink.replaceAll(" ", "%20");
-//				    }
-				    context.write(new Text(url), new Text(outlink));
-				}	
-			}
-		}
-	}
+	/*
+    @Override
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+        String line = value.toString();
+        String[] parts = line.split("\001");
+        //should be 3 parts
+        //url, s3key, outlinks
+        //outlinks are divided using "\002"
+
+        if (parts.length < 2) {
+            System.out.println(line);
+            return;
+        }
+
+        String url = parts[0];
+        if (url.contains("\t")) {
+            url = url.replaceAll("\t", "%09");
+        }
+        if (parts.length == 2 || parts[2] == "") { //Need to parse by myself
+            JSONObject obj = new JSONObject(parts[1]);
+            String s3key = obj.getJSONObject("s3").getString("key");
+            String content = getS3FileContent(s3key);
+            if (content == null) { //pay attention to content is null. then nothing needs to be done.
+                System.out.println(s3key + " content null");
+                return;
+            }
+            String[] links = URLExtractor.extract(content.getBytes());
+            URL curUrl = new URL(url);
+            for (String link : links) {
+                URL resolvedUrl = new URL(curUrl, link);
+                String realLink = resolvedUrl.toString(); //get away! those mailto:
+                if (realLink.startsWith("https") || realLink.startsWith("http")) {
+                    realLink = realLink.replaceAll("\t", "%09");
+                    //				    if(realLink.contains(" ")) {
+                    //					    realLink = realLink.replaceAll(" ", "%20");
+                    //				    }	    
+                    context.write(new Text(url), new Text(realLink));
+                }
+            }
+        } else { //already parsed, just get
+            String[] outlinks = parts[2].split("\002");
+            for (String outlink : outlinks) {
+                if (outlink.startsWith("https") || outlink.startsWith("http")) {
+                    outlink = outlink.replaceAll("\t", "%09");
+                    //				    if(outlink.contains(" ")) {
+                    //				    	outlink = outlink.replaceAll(" ", "%20");
+                    //				    }
+                    context.write(new Text(url), new Text(outlink));
+                }
+            }
+        }
+    }
+	*/
 	
+	@Override
+	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+        String line = value.toString();
+        String[] parts = line.split("andyhemanthharijizhou");
+        //should be 3 parts
+        //url, [inputlinks], [outputlinks]
+        //outlinks are divided using ","
+        if (parts.length < 2) {
+            System.out.println(line);
+            return;
+        }
+
+        String url = parts[0];
+        if (url.contains("\t")) {
+            url = url.replaceAll("\t", "%09");
+        }
+        
+        String[] outlinks = parts[2].split(",");
+        for (String outlink : outlinks) {
+            if (outlink.startsWith("https") || outlink.startsWith("http")) {
+                outlink = outlink.replaceAll("\t", "%09");
+                context.write(new Text(url), new Text(outlink));
+            }
+        }
+	}
 }
