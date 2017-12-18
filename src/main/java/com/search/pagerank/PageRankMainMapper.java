@@ -18,27 +18,6 @@ public class PageRankMainMapper extends Mapper<LongWritable,Text,Text,Text> {
 		String curURL = "";
 		if(urls.length != 2) { 
 			return;
-//			curURL = urls[0];
-//			for(int i = 1; i < urls.length - 1; i++) {
-//				curURL += "\t" + urls[i];
-//			}
-//			IneedScoreandoutlinks = urls[urls.length - 1];
-//			context.write(new Text(curURL), new Text(IneedScoreandoutlinks));
-//			String scoreAndLinks[]= IneedScoreandoutlinks.split("\002", 2); 
-//			double averageScore = 0.0;
-//			double curPageRankScore = Double.parseDouble(scoreAndLinks[0].split("\\|")[1]);
-//			if(scoreAndLinks.length != 2) { //no outURLs, points to nobody :(
-//				averageScore = curPageRankScore; //we just put it here
-//				context.write(new Text(curURL), new Text(String.valueOf(averageScore))); //we emit current URL with avarageScore
-//			} else { //at least one outURLs
-//				String outURLstring = scoreAndLinks[1];
-//				String outURLs[] = outURLstring.split("\002"); 
-//				int outURLNum = outURLs.length;
-//				averageScore = curPageRankScore / outURLNum;
-//				for(int i = 0; i < outURLNum; i++) {
-//					context.write(new Text(outURLs[i]), new Text(String.valueOf(averageScore)));
-//				}	
-//			}
 		} else { //no tab in our url
 		//urls[0] curURL
 		//urls[1] Score|1.0 outURL1 outURL2 outURL3
@@ -54,10 +33,10 @@ public class PageRankMainMapper extends Mapper<LongWritable,Text,Text,Text> {
 			String scoreAndLinks[]= urls[1].split("\002", 2);  
 			double averageScore = 0.0;
 			double curPageRankScore = Double.parseDouble(scoreAndLinks[0].split("\\|")[1]); //should eliminate "Score|"
-			if(scoreAndLinks.length != 2) { //no outURLs, points to nobody :(
-				averageScore = curPageRankScore; //we just put it here
+			if(scoreAndLinks.length != 2) { 
+				averageScore = curPageRankScore; 
 				context.write(new Text(curURL), new Text(String.valueOf(averageScore))); //we emit current URL with avarageScore
-			} else { //at least one outURLs
+			} else { 
 				String outURLstring = scoreAndLinks[1];
 				String outURLs[] = outURLstring.split("\002"); 
 				int outURLNum = outURLs.length;

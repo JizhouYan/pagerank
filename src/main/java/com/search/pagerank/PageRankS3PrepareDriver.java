@@ -80,8 +80,6 @@ public class PageRankS3PrepareDriver extends Configured implements Tool{
             System.out.println("Error Message: " + ace.getMessage());
         }
 
-	    //FileInputFormat.setInputPaths(job, new Path(arg0[0]));
-	    //FileOutputFormat.setOutputPath(job, new Path(arg0[1]));
 	    FileOutputFormat.setOutputPath(job, new Path(outputFolder));
 	    
 		return job.waitForCompletion(true) ? 0 : 1;
